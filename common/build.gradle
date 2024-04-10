@@ -9,3 +9,14 @@ dependencies {
 architectury {
     common("fabric", "forge")
 }
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            groupId = rootProject.group_id
+            version = version + "+common"
+            from components.java
+        }
+    }
+}
