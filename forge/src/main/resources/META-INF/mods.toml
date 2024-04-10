@@ -30,6 +30,6 @@ side = "BOTH"
 [[dependencies.man_of_many_planes]]
 modId = "immersive_aircraft"
 mandatory = true
-versionRange = "[0.7.5,)"
+versionRange = "[0.8.0,)"
 ordering = "NONE"
 side = "BOTH"
