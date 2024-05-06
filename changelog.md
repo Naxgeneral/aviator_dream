@@ -1,3 +1,8 @@
+# 0.0.4
+
+* Added translations
+* Fixed sitting position
+
 # 0.0.3
 
 * Aircraft now drop the right item
