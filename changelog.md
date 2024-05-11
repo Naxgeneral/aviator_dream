@@ -1,3 +1,7 @@
+# 0.1.0
+
+* Updated to IA 1.0.0
+
 # 0.0.4
 
 * Added translations
