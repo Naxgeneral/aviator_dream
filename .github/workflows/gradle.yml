@@ -23,8 +23,6 @@ jobs:
         run: ./gradlew :forge:build
       - name: Build with Gradle - Fabric
         run: ./gradlew :fabric:build
-      - name: Publish to Maven
-        run: ./gradlew publish
       - name: Upload Artifacts - Forge
         uses: actions/upload-artifact@v2
         with:
