@@ -8,6 +8,7 @@ import immersive_aircraft.resources.bbmodel.BBBone;
 import immersive_aircraft.resources.bbmodel.BBObject;
 import net.conczin.man_of_many_planes.ManOfManyPlanes;
 import net.conczin.man_of_many_planes.entity.EconomyPlaneEntity;
+import net.conczin.man_of_many_planes.entity.ScarletBiplaneEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
@@ -32,7 +33,9 @@ public class EconomyPlaneEntityRenderer extends AircraftEntityRenderer<EconomyPl
                             BBModelRenderer.renderObject(model, belt, matrixStack, vertexConsumerProvider, light, time, entity, null, 1.0f, 1.0f, 1.0f, 1.0f);
                         }
                     }
-            );
+            )
+            .add("dyed_body", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    ScarletBiplaneEntityRenderer.renderPartColored(model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer, entity.getBodyColor()));
 
     @Override
     protected ResourceLocation getModelId() {

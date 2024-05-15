@@ -5,12 +5,15 @@ import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.item.AircraftItem;
 import net.conczin.man_of_many_planes.entity.EconomyPlaneEntity;
 import net.conczin.man_of_many_planes.entity.ScarletBiplaneEntity;
+import net.conczin.man_of_many_planes.items.DyeableAircraftItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
@@ -27,8 +30,8 @@ public class ManOfManyPlanes {
 
     public static void init() {
         // Register items
-        SCARLET_BIPLANE_ITEM = register("scarlet_biplane", () -> new AircraftItem(baseProps().stacksTo(1), world -> new ScarletBiplaneEntity(SCARLET_BIPLANE_ENTITY.get(), world)));
-        ECONOMY_PLANE_ITEM = register("economy_plane", () -> new AircraftItem(baseProps().stacksTo(1), world -> new EconomyPlaneEntity(ECONOMY_PLANE_ENTITY.get(), world)));
+        SCARLET_BIPLANE_ITEM = register("scarlet_biplane", () -> new DyeableAircraftItem(baseProps().stacksTo(1), world -> new ScarletBiplaneEntity(SCARLET_BIPLANE_ENTITY.get(), world)));
+        ECONOMY_PLANE_ITEM = register("economy_plane", () -> new DyeableAircraftItem(baseProps().stacksTo(1), world -> new EconomyPlaneEntity(ECONOMY_PLANE_ENTITY.get(), world)));
 
         // Register entities
         SCARLET_BIPLANE_ENTITY = register("scarlet_biplane", EntityType.Builder

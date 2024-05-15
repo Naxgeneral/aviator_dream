@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "man_of_many_planes:item/economy_plane"
+    "layer0": "man_of_many_planes:item/economy_plane_color",
+    "layer1": "man_of_many_planes:item/economy_plane"
   }
 }

@@ -4,16 +4,24 @@ import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirplaneEntity;
 import immersive_aircraft.entity.misc.Trail;
 import net.conczin.man_of_many_planes.ManOfManyPlanes;
+import net.conczin.man_of_many_planes.client.ColorUtils;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import java.awt.*;
 import java.util.List;
 
 public class EconomyPlaneEntity extends AirplaneEntity {
@@ -74,5 +82,76 @@ public class EconomyPlaneEntity extends AirplaneEntity {
     @Override
     public double getZoom() {
         return 12.0;
+    }
+
+    //Vehicle Dye Color code by Cibernet
+    protected static final EntityDataAccessor<Integer> DYE_COLOR = SynchedEntityData.defineId(EconomyPlaneEntity.class, EntityDataSerializers.INT);
+
+    @Override
+    protected void defineSynchedData()
+    {
+        super.defineSynchedData();
+        entityData.define(DYE_COLOR, 0xFFFFFF);
+    }
+
+    @Override
+    protected void addItemTag(@NotNull CompoundTag tag)
+    {
+        super.addItemTag(tag);
+        ColorUtils.setDisplayColorFromNbt(tag, getDyeColor());
+    }
+
+    @Override
+    protected void readItemTag(@NotNull CompoundTag tag)
+    {
+        super.readItemTag(tag);
+        int color = ColorUtils.getDisplayColorFromNbt(tag);
+        if(color != -1)
+            setDyeColor(color);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(@NotNull CompoundTag tag)
+    {
+        super.readAdditionalSaveData(tag);
+        if(tag.contains("Color"))
+            setDyeColor(tag.getInt("Color"));
+    }
+
+    @Override
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag)
+    {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Color", getDyeColor());
+    }
+
+    public int getDyeColor()
+    {
+        return entityData.get(DYE_COLOR);
+    }
+
+    public void setDyeColor(int v)
+    {
+        entityData.set(DYE_COLOR, v);
+    }
+
+    public int getBodyColor()
+    {
+        return getDyeColor();
+    }
+
+    public int getHighlightColor()
+    {
+        //Gets dye color and separates it into RGB, then turns that into HSB
+        int[] rgb = ColorUtils.hexToRGB(getDyeColor());
+        float[] hsb = Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], null);
+
+        //Multiplies Saturation (hsb[1]) and Brightness (hsb[2]) by a factor
+        hsb[1] = Mth.clamp(hsb[1] * 0.88311f, 0, 1);
+        hsb[2] = Mth.clamp(hsb[2] * 1.11494f, 0, 1);
+
+        //Turns color back into decimal and returns outcome
+        Color resultColor = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+        return resultColor.getRGB();
     }
 }
