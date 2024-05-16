@@ -21,16 +21,4 @@ public class ColorUtils
 
 		return new float[]{r, g, b};
 	}
-
-	public static int getDisplayColorFromNbt(CompoundTag tag) {
-		CompoundTag compoundTag = tag.getCompound("display");
-		return compoundTag.contains("color", 99) ? compoundTag.getInt("color") : -1;
-	}
-
-	public static void setDisplayColorFromNbt(CompoundTag tag, int i)
-	{
-		if(!tag.contains("display"))
-			tag.put("display", new CompoundTag());
-		tag.getCompound("display").putInt("color", i);
-	}
 }

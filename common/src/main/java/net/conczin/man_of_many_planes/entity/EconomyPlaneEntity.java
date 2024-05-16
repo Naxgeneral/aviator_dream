@@ -7,6 +7,8 @@ import net.conczin.man_of_many_planes.ManOfManyPlanes;
 import net.conczin.man_of_many_planes.client.ColorUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -84,7 +86,7 @@ public class EconomyPlaneEntity extends AirplaneEntity {
         return 12.0;
     }
 
-    //Vehicle Dye Color code by Cibernet
+    //Vehicle Dye Color and Item Name Retention - code by Cibernet
     protected static final EntityDataAccessor<Integer> DYE_COLOR = SynchedEntityData.defineId(EconomyPlaneEntity.class, EntityDataSerializers.INT);
 
     @Override
@@ -98,16 +100,28 @@ public class EconomyPlaneEntity extends AirplaneEntity {
     protected void addItemTag(@NotNull CompoundTag tag)
     {
         super.addItemTag(tag);
-        ColorUtils.setDisplayColorFromNbt(tag, getDyeColor());
+        if(!tag.contains("display"))
+            tag.put("display", new CompoundTag());
+        CompoundTag displayTag = tag.getCompound("display");
+        displayTag.putInt("color", getDyeColor());
+
+        if(hasCustomName())
+            displayTag.putString("Name", net.minecraft.network.chat.Component.Serializer.toJson(getCustomName()));
+
     }
 
     @Override
     protected void readItemTag(@NotNull CompoundTag tag)
     {
         super.readItemTag(tag);
-        int color = ColorUtils.getDisplayColorFromNbt(tag);
-        if(color != -1)
-            setDyeColor(color);
+
+        CompoundTag displayTag = tag.getCompound("display");
+
+        if(displayTag.contains("color", 99))
+            setDyeColor(displayTag.getInt("color"));
+
+        if(displayTag.contains("Name", Tag.TAG_STRING))
+            setCustomName(Component.Serializer.fromJson(displayTag.getString("Name")));
     }
 
     @Override
