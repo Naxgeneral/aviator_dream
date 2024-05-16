@@ -27,7 +27,8 @@ import org.joml.Vector4f;
 import java.awt.*;
 import java.util.List;
 
-public class ScarletBiplaneEntity extends AirplaneEntity {
+public class ScarletBiplaneEntity extends DyeableAirplaneEntity
+{
     public ScarletBiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
@@ -87,92 +88,8 @@ public class ScarletBiplaneEntity extends AirplaneEntity {
         return 8.0;
     }
 
-    //Vehicle Dye Color and Item Name Retention - code by Cibernet
-    protected static final EntityDataAccessor<Integer> DYE_COLOR = SynchedEntityData.defineId(ScarletBiplaneEntity.class, EntityDataSerializers.INT);
-
     @Override
-    protected void defineSynchedData()
-    {
-        super.defineSynchedData();
-        entityData.define(DYE_COLOR, -1);
-    }
-
-    @Override
-    protected void addItemTag(@NotNull CompoundTag tag)
-    {
-        super.addItemTag(tag);
-        if(!tag.contains("display"))
-            tag.put("display", new CompoundTag());
-        CompoundTag displayTag = tag.getCompound("display");
-        if(getDyeColor() >= 0)
-            displayTag.putInt("color", getDyeColor());
-
-        if(hasCustomName())
-            displayTag.putString("Name", Component.Serializer.toJson(getCustomName()));
-
-    }
-
-    @Override
-    protected void readItemTag(@NotNull CompoundTag tag)
-    {
-        super.readItemTag(tag);
-
-        CompoundTag displayTag = tag.getCompound("display");
-
-        if(displayTag.contains("color", 99))
-            setDyeColor(displayTag.getInt("color"));
-
-        if(displayTag.contains("Name", Tag.TAG_STRING))
-            setCustomName(Component.Serializer.fromJson(displayTag.getString("Name")));
-    }
-
-    @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag)
-    {
-        super.readAdditionalSaveData(tag);
-        if(tag.contains("Color"))
-            setDyeColor(tag.getInt("Color"));
-    }
-
-    @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag)
-    {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("Color", getDyeColor());
-    }
-
-    public int getDyeColor()
-    {
-        return entityData.get(DYE_COLOR);
-    }
-
-    public void setDyeColor(int v)
-    {
-        entityData.set(DYE_COLOR, v);
-    }
-
-    public int getBodyColor()
-    {
-        return getDyeColor() < 0 ? 0xEF2323 : getDyeColor();
-    }
-
-    public int getHighlightColor()
-    {
-        //Gets dye color and separates it into RGB, then turns that into HSB
-        int[] rgb = ColorUtils.hexToRGB(getBodyColor());
-        float[] hsb = Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], null);
-
-        //Multiplies Saturation (hsb[1]) and Brightness (hsb[2]) by a factor
-        hsb[1] = Mth.clamp(hsb[1] * 0.88311f, 0, 1);
-        hsb[2] = Mth.clamp(hsb[2] * 1.11494f, 0, 1);
-
-        //Turns color back into decimal and returns outcome
-        Color resultColor = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-        return resultColor.getRGB();
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return super.getDisplayName();
+    public int getDefaultDyeColor() {
+        return 0xEF2323;
     }
 }
