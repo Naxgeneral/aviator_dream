@@ -93,7 +93,7 @@ public class EconomyPlaneEntity extends AirplaneEntity {
     protected void defineSynchedData()
     {
         super.defineSynchedData();
-        entityData.define(DYE_COLOR, 0xFFFFFF);
+        entityData.define(DYE_COLOR, -1);
     }
 
     @Override
@@ -103,7 +103,8 @@ public class EconomyPlaneEntity extends AirplaneEntity {
         if(!tag.contains("display"))
             tag.put("display", new CompoundTag());
         CompoundTag displayTag = tag.getCompound("display");
-        displayTag.putInt("color", getDyeColor());
+        if(getDyeColor() >= 0)
+            displayTag.putInt("color", getDyeColor());
 
         if(hasCustomName())
             displayTag.putString("Name", net.minecraft.network.chat.Component.Serializer.toJson(getCustomName()));
@@ -151,13 +152,13 @@ public class EconomyPlaneEntity extends AirplaneEntity {
 
     public int getBodyColor()
     {
-        return getDyeColor();
+        return getDyeColor() < 0 ? 0xFFFFFF : getDyeColor();
     }
 
     public int getHighlightColor()
     {
         //Gets dye color and separates it into RGB, then turns that into HSB
-        int[] rgb = ColorUtils.hexToRGB(getDyeColor());
+        int[] rgb = ColorUtils.hexToRGB(getBodyColor());
         float[] hsb = Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], null);
 
         //Multiplies Saturation (hsb[1]) and Brightness (hsb[2]) by a factor
