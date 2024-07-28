@@ -11,7 +11,11 @@ import net.minecraft.resources.ResourceLocation;
 public class ScarletBiplaneEntityRenderer extends AircraftEntityRenderer<ScarletBiplaneEntity> {
     private static final ResourceLocation ID = ManOfManyPlanes.locate("scarlet_biplane");
 
-    private final ModelPartRenderHandler<ScarletBiplaneEntity> model = new ModelPartRenderHandler<>();
+    private final ModelPartRenderHandler<ScarletBiplaneEntity> model = new ModelPartRenderHandler<ScarletBiplaneEntity>()
+            .add("dyed_body", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderDyed(model, object, vertexConsumerProvider, entity, matrixStack, light, time, false, false))
+            .add("dyed_body_highlights", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderDyed(model, object, vertexConsumerProvider, entity, matrixStack, light, time, true, false));
 
     @Override
     protected ResourceLocation getModelId() {

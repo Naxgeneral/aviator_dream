@@ -16,7 +16,8 @@ import org.joml.Vector4f;
 
 import java.util.List;
 
-public class ScarletBiplaneEntity extends AirplaneEntity {
+public class ScarletBiplaneEntity extends AirplaneEntity
+{
     public ScarletBiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
@@ -74,5 +75,10 @@ public class ScarletBiplaneEntity extends AirplaneEntity {
     @Override
     public double getZoom() {
         return 8.0;
+    }
+
+    @Override
+    public int getDefaultDyeColor() {
+        return 0xEF2323;
     }
 }

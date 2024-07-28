@@ -83,4 +83,16 @@ allprojects {
             }
         }
     }
+
+    def exclusionPatterns = ['**/*.aup3', '**/.xdp-*', '**/*.kra', '**/*~*']
+    processResources {
+        exclusionPatterns.each { pattern ->
+            exclude pattern
+        }
+    }
+    sourcesJar {
+        exclusionPatterns.each { pattern ->
+            exclude pattern
+        }
+    }
 }

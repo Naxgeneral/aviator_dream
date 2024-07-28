@@ -1,7 +1,6 @@
 package net.conczin.man_of_many_planes.client;
 
 import immersive_aircraft.client.render.entity.renderer.AircraftEntityRenderer;
-import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.bbmodel.BBBone;
@@ -12,6 +11,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Random;
+
+import static immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer.renderObject;
 
 public class EconomyPlaneEntityRenderer extends AircraftEntityRenderer<EconomyPlaneEntity> {
     private static final ResourceLocation ID = ManOfManyPlanes.locate("economy_plane");
@@ -29,10 +30,14 @@ public class EconomyPlaneEntityRenderer extends AircraftEntityRenderer<EconomyPl
                         if (object instanceof BBBone bone) {
                             int frame = (int) entity.engineRotation.getSmooth(time % 1.0f);
                             BBObject belt = bone.children.get(Math.floorMod(frame, bone.children.size()));
-                            BBModelRenderer.renderObject(model, belt, matrixStack, vertexConsumerProvider, light, time, entity, null, 1.0f, 1.0f, 1.0f, 1.0f);
+                            renderObject(model, belt, matrixStack, vertexConsumerProvider, light, time, entity, null, 1.0f, 1.0f, 1.0f, 1.0f);
                         }
                     }
-            );
+            )
+            .add("dyed_body", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderDyed(model, object, vertexConsumerProvider, entity, matrixStack, light, time, false, false));
+
+
 
     @Override
     protected ResourceLocation getModelId() {
