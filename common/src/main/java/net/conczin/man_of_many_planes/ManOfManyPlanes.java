@@ -2,18 +2,15 @@ package net.conczin.man_of_many_planes;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.cobalt.registration.Registration;
-import immersive_aircraft.item.AircraftItem;
+import immersive_aircraft.item.DyeableAircraftItem;
 import net.conczin.man_of_many_planes.entity.EconomyPlaneEntity;
 import net.conczin.man_of_many_planes.entity.ScarletBiplaneEntity;
-import net.conczin.man_of_many_planes.items.DyeableAircraftItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
