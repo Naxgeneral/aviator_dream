@@ -1,3 +1,8 @@
+# 0.2.0
+
+* Updated to IA 1.1.0
+* Planes can now be dyed (Thanks Cibernet!)
+
 # 0.1.0
 
 * Updated to IA 1.0.0
