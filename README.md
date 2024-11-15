@@ -1,6 +1,6 @@
-# Man of Many Planes
+# Aviator Dreams
 
-* Model and Textures by Man of Many Snails
+* Model and Textures by Nax
 * Code by Luke100000
 
 # Licence
